@@ -12,6 +12,7 @@
   "type": "module",
   "dependencies": {
     "amqplib": "^2.0.1",
+    "eslint-plugin-import": "^2.32.0",
     "express": "^5.2.1",
     "jsonwebtoken": "^9.0.3",
     "mongoose": "^9.6.2",
