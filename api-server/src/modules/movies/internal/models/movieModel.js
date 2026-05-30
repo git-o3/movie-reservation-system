@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { release } from "node:os";
 
 const Schema = mongoose.Schema;
 
@@ -21,7 +22,7 @@ const movieSchema = new Schema({
         type: String,
         required: true
     },
-    availablity: {
+    availability: {
         type: Boolean,
         default: true
     },
@@ -30,6 +31,8 @@ const movieSchema = new Schema({
         required: true
     }
 }, { timestamps: true })
+
+movieSchema.index({ name: 1, releaseDate: 1 }, { unique: true })  // compound index to ensure unqiue movie entry
 
 const Movie = mongoose.model("Movie", movieSchema)
 
