@@ -4,8 +4,8 @@ import config from "../../../../config/index.js";
 import { AppError } from "../../../../shared/error.js";
 import mongoose from "mongoose";
 
-const signToken = (id, isAdmin) => {
-    return jwt.sign({ id, isAdmin }, config.JWT_SECRET, { expiresIn: "7d"});
+const signToken = (id, role) => {
+    return jwt.sign({ id, role }, config.JWT_SECRET, { expiresIn: "7d"});
 }
 
 export const register = async (email, password) => {
@@ -17,14 +17,14 @@ export const register = async (email, password) => {
         if (existingEmail) throw new AppError("Email is already registered", 400)
 
         const [newUser] = await User.create([{ email, password}], { session })
-        const token = signToken(newUser._id, newUser.isAdmin)
+        const token = signToken(newUser._id, newUser.role)
 
         await session.commitTransaction()
         session.endSession()
 
         return {
             token,
-            user: { id: newUser._id, email: newUser.email } 
+            user: { id: newUser._id, email: newUser.email, role: newUser.role }
         }
     } catch (error) {
         await session.abortTransaction()
@@ -43,9 +43,9 @@ export const login = async (email, password) => {
         throw new AppError("Incorrect email or passoword.", 401);
     }
 
-    const token = signToken(user._id, user.isAdmin);
+    const token = signToken(user._id, user.role);
     return {
         token,
-        user: { id: user._id, email: user.email }
+        user: { id: user._id, email: user.email, role: user.role }
     }
 };
