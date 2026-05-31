@@ -1,14 +1,14 @@
 import { Router } from "express";
-import movieController from "./internal/controllers/movieController.js";
+import MovieController from "./internal/controllers/movieController.js";
 import { restrict } from "../users/index.js";
 
 const router = Router();
 
-router.get("/", movieController.getAllMovies);
-router.get("/:id", movieController.getMovieById);
+router.get("/", MovieController.getMovies);
+router.get("/:id", MovieController.getMovieById);
 
-router.post("/", restrict("admin"), movieController.createMovie);
-router.put("/:id", restrict("admin"), movieController.updateMovie);
-router.delete("/:id", restrict("admin"), movieController.deleteMovie);
+router.post("/", restrict("admin"), MovieController.createMovie);
+router.put("/:id", restrict("admin"), MovieController.updateMovie);
+router.delete("/:id", restrict("admin"), MovieController.deleteMovie);
 
 export default router;

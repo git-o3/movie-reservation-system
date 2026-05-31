@@ -39,12 +39,12 @@ class MovieController {
     updateMovie = asyncHandler(async (req, res) => {
         const { id } = req.params;
 
-        const updatedMovie = await movieQueryService.update(id, req.body);
+        const updatedMovie = await movieIngestionService.updateMovie(id, req.body);
 
         return res.status(200).json({
-            success: true,
-            data: updatedMovie
-        });
+           success: true,
+           data: updatedMovie
+       });
     });
 
     deleteMovie = asyncHandler(async (req, res) => {

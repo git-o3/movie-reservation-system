@@ -22,6 +22,22 @@ class MovieIngestionService {
 
         return newMovie;
     }
+
+      async updateMovie(id, data) {
+           const movie = await Movie.findByIdAndUpdate(
+            id,
+            { $set: data },
+            { new: true, runValidators: true }
+           )
+           .select("-__v")
+           .lean();
+    
+           if (!movie) {
+            throw new AppError("The movie you are trying to update does not exist.", 404);
+           }
+    
+            return movie;
+        }
 }
 
 export default new MovieIngestionService();
