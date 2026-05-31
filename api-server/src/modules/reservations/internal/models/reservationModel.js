@@ -19,9 +19,10 @@ const reservationSchema = new Schema({
         type: Number,
         required: true
     },
-    cancellation: {
-        type: Boolean,
-        default: false
+    status: {
+        type: String,
+        enum: ["pending", "confirmed", "cancelled", "refunded"],
+        default: "pending"
     },
     confirmationDetail: {
         code: {
