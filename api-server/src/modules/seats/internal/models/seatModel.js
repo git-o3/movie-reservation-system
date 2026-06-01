@@ -15,15 +15,13 @@ const seatSchema = new Schema({
         type: Boolean,
         default: false
     },
-    cost: {
-        type: Number,
-        required: true
-    },
     status: {
         type: String,
         enum: ["available", "reserved", "maintenance"],
     }
 }, { timestamps: true })
+
+seatSchema.index({ theater: 1, seatLocation: 1 }, { unique: true })
 
 const Seat = mongoose.model("Seat", seatSchema)
 

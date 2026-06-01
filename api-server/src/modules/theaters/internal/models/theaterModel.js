@@ -8,11 +8,11 @@ const theaterSchema = new Schema({
         required: true,
         trim: true
     },
-    location: [{
+    location: {
         type: String,
         required: true,
         trim: true
-    }],
+    },
     carPark: {
         type: Boolean,
         default: false
@@ -25,9 +25,17 @@ const theaterSchema = new Schema({
         type: Number,
         required: true
     },
-    seats: [{
-        type: Schema.Types.ObjectId,
-    }]
+    rows: {
+        type: Number,
+        required: true
+    },
+    seatsPerRow: {
+        type: Number,
+        required: true
+    },
+    vipRows: [{
+        type: String
+    }],
 }, {timestamps: true })
 
 theaterSchema.index({ name: 1 }, { unique: true })
