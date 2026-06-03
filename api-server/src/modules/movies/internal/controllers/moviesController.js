@@ -25,7 +25,7 @@ class MovieController {
         });
     });
 
-    getMovieById = asyncHandler(async (req, res) => {
+    getMovie = asyncHandler(async (req, res) => {
         const { id } = req.params;
 
         const movie = await movieQueryService.findById(id);

@@ -23,7 +23,7 @@ class TheaterController {
         });
     });
     
-    getTheaterByid = asyncHandler(async (req, res) => {
+    getTheater = asyncHandler(async (req, res) => {
         const {id } = req.params;;
 
         const theater = await theaterQueryService.findById(id);

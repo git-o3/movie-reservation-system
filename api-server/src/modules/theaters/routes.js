@@ -5,7 +5,7 @@ import { restrict } from "../users/index.js";
 const router = Router();
 
 router.get("/", TheaterController.getTheaters);
-router.get("/:id", TheaterController.getTheaterById);
+router.get("/:id", TheaterController.getTheater);
 
 router.post("/", restrict("admin"), TheaterController.createTheater);
 router.put("/:id", restrict("admin"), TheaterController.updateTheater);

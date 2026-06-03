@@ -5,7 +5,7 @@ import { restrict } from "../users/index.js";
 const router = Router();
 
 router.get("/", MovieController.getMovies);
-router.get("/:id", MovieController.getMovieById);
+router.get("/:id", MovieController.getMovie);
 
 router.post("/", restrict("admin"), MovieController.createMovie);
 router.put("/:id", restrict("admin"), MovieController.updateMovie);
