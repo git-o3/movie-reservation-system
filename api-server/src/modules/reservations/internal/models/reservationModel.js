@@ -7,15 +7,15 @@ const reservationSchema = new Schema({
         type: Schema.Types.ObjectId,
         required: true
     },
-    showtime: {
+    showtimeId: {
         type: Schema.Types.ObjectId,
         required: true
     },
-    seat: {
+    seatId: {
         type: Schema.Types.ObjectId,
         required: true
     },
-    price: {
+    pricePaid: {
         type: Number,
         required: true
     },
