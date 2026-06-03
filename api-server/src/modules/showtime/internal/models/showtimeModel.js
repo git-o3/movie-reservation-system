@@ -3,24 +3,20 @@ import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 
 const showtimeSchema = new Schema({
-    movie: {
+    movieId: {
         type: Schema.Types.ObjectId,
         required: true
     },
-    theater: {
+    theaterId: {
         type: Schema.Types.ObjectId,
         required: true
     },
-    showName: {
-        type: String,
-        required: true
-    },
-    schedule: {
+    startsAt: {
         type: Date,
         required: true
     },
-    time: {
-        type: String,
+    endsAt: {
+        type: Date,
         required: true
     },
     format: {
@@ -29,22 +25,9 @@ const showtimeSchema = new Schema({
         default: "2D"
     },
     ticketCost: {
-        type: Number,
-        required: true
-    },
-    movieGenre: {
-        type: String,
-    },
-    movieRating: {
-        type: String
-    },
-    availableSeats: {
-        type: Number,
-        required: true
-    },
-    bookedSeats: [{ 
-        type: Schema.Types.ObjectId,
-    }]
+       regular: { type: Number, required: true },
+       vip: { type: Number, required: true }
+    }
 
 }, { timestamps: true })
 
