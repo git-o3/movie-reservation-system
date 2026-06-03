@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 
 const seatSchema = new Schema({
-    theater: {
+    theaterId: {
         type: Schema.Types.ObjectId,
         required: true
     },
@@ -21,7 +21,7 @@ const seatSchema = new Schema({
     }
 }, { timestamps: true })
 
-seatSchema.index({ theater: 1, seatLocation: 1 }, { unique: true })
+seatSchema.index({ theaterId: 1, seatLocation: 1 }, { unique: true })
 
 const Seat = mongoose.model("Seat", seatSchema)
 

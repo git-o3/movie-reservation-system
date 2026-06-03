@@ -6,7 +6,7 @@ const router = Router();
 
 router.use(protect);
 
-router.get("/:id", SeatController.getSeatById);
+router.get("/:id", SeatController.getSeat);
 
 router.patch("/:id/maintenance", restrict("admin"), SeatController.maintenance);
 router.patch("/:id/release/maintenance", restrict("admin"), SeatController.releaseMaintenance);

@@ -19,7 +19,7 @@ class SeatController {
         res.status(200).json({ success: true, message: "Seat released from maintenance successfully." });
     })
 
-    getSeatById = asyncHandler(async (req, res) => {
+    getSeat = asyncHandler(async (req, res) => {
         const { id } = req.params;
 
         const seat = await seatQueryService.findById(id);
