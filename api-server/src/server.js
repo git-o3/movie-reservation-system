@@ -2,7 +2,7 @@ import app from "./app.js";
 import config from "./config/index.js";
 import { connectDB } from "./config/db.js";
 import { connectBroker } from "./config/broker.js";
-import { initStatusConsumer } from "./consumers/statusConsumer.js";
+import { initReservationModule } from "./modules/reservations/index.js";
 
 
 async function bootstrap() {
@@ -12,7 +12,8 @@ async function bootstrap() {
     await connectDB();
 
     await connectBroker();
-    await initStatusConsumer(); 
+    await initReservationModule();
+   
 
     app.listen(config.PORT, () => {
       console.log(

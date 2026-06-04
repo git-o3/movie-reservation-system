@@ -24,7 +24,7 @@ export default {
     msgBrokerURL: MESSAGE_BROKER_URL,
     redis: {
         host: REDIS_HOST,
-        port: parseInt(REDIS_HOST, 10)
+        port: parseInt(REDIS_PORT, 10)
     },
     queue
 };
