@@ -3,7 +3,10 @@ import { AppError } from "../../../../shared/error.js";
 import { ShowtimeModuleApi } from "../../../showtime/publicApi.js";
 import { SeatModuleApi } from "../../../seats/publicApi.js";
 import { randomUUID } from "crypto";
-import { NotificationModuleApi } from "../../../notifications/publicApi.js";
+import { setPipelineState, updatePipelineState } from "../../../../shared/redis.js";
+import { publishToQueue } from "../../../../shared/broker.js";
+
+const CREATED_QUEUE = "reservation.created";
 
 class ReservationIngestionService {
 
@@ -33,7 +36,7 @@ class ReservationIngestionService {
                 showtimeId,
                 seatId,
                 pricePaid,
-                status: "confirmed",
+                status: "pending",
                 confirmationDetail
             });
         } catch (err) {
@@ -41,17 +44,22 @@ class ReservationIngestionService {
             throw err;
         }
 
-        NotificationModuleApi.send({
-            userId,
-            type: "reservation_confirmation",
-            payload: { confirmationCode: confirmationDetail.code }
-        }).catch(err => console.error("Notification sending failed:", err));
+        const jobId = randomUUID();
+        await setPipelineState(jobId, {
+            jobId,
+            userId: userId.toString(),
+            reservationId: reservation._id.toString(),
+            status: "pending"
+        });
+
+        await publishToQueue(CREATED_QUEUE, { jobId });
 
         return reservation;
     }
 
-    async cancel(reservationId) {
+    async cancel(reservationId, userId, role) {
         const reservation = await Reservation.findById(reservationId);
+
         if (!reservation) {
             throw new AppError("Reservation not found.", 404);
         }
@@ -67,16 +75,32 @@ class ReservationIngestionService {
         reservation.status = "cancelled";
         await reservation.save();
 
-        NotificationModuleApi.send({
-            userId: reservation.userId,
-            type: "reservation_cancellation",
-            payload: { reservationId }
-        }).catch(err => console.error("Notification sending failed:", err));
+        const jobId = randomUUID();
+        await setPipelineState(jobId, {
+            jobId,
+            userId: reservation.userId.toString(),
+            reservationId: reservation._id.toString(),
+            status: "cancelled"
+        });
+
+        await publishToQueue("reservation.cancelled", { jobId });
 
         return reservation;
-
     }
 
+    async updateStatus(reservationId, status) {
+        const reservation = await Reservation.findByIdAndUpdate(
+            reservationId,
+            { $set: { status } },
+            { new: true, runValidators : true }
+        ).lean();
+
+        if (!reservation) {
+            throw new AppError("Reservation not found.", 404);
+        }
+
+        return reservation
+    }
 }
 
 export default new ReservationIngestionService();

@@ -19,7 +19,7 @@ class ReservationController {
     cancelReservation = asyncHandler(async (req, res) => {
         const { id } = req.params;
 
-        await reservationIngestionService.cancel(id, req.user._id);
+        await reservationIngestionService.cancel(id, req.user._id, req.user.role);
 
         return res.status(200).json({
             status: "success",
