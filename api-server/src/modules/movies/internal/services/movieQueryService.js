@@ -5,7 +5,7 @@ import { AppError } from "../../../../shared/error.js";
 class MovieQueryService {
 
     async findById(id) {
-        const movie = await Movie.find(id)
+        const movie = await Movie.findById(id)
         .select("-__v")
         .lean();
 
@@ -42,17 +42,6 @@ class MovieQueryService {
         };
     }
 
-
-    async remove(id) {
-        const movie = await Movie.findOne(id);
-
-        if (!movie) {
-            throw new AppError("The movie you are trying to delete does not exist.", 404);
-        }
-
-        await Movie.deleteOne({ _id: id });
-        return { message: "Movie deleted successfully." };
-    }
 }
 
 export default new MovieQueryService();

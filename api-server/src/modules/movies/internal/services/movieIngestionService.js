@@ -23,7 +23,7 @@ class MovieIngestionService {
         return newMovie;
     }
 
-      async updateMovie(id, data) {
+      async update(id, data) {
            const movie = await Movie.findByIdAndUpdate(
             id,
             { $set: data },
@@ -38,6 +38,18 @@ class MovieIngestionService {
     
             return movie;
         }
+
+    async remove(id) {
+        const movie = await Movie.findById(id);
+
+        if (!movie) {
+            throw new AppError("The movie you are trying to delete does not exist.", 404);
+        }
+
+        await Movie.deleteOne({ _id: id });
+        return { message: "Movie deleted successfully." };
+    }
+    
 }
 
 export default new MovieIngestionService();
