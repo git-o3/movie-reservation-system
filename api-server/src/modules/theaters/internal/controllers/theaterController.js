@@ -37,7 +37,7 @@ class TheaterController {
     updateTheater = asyncHandler(async (req, res) => {
         const { id } = req.params;
 
-        const updatedTheater = await theaterIngestionService.updateTheater(id, req.body);
+        const updatedTheater = await theaterIngestionService.update(id, req.body);
 
         return res.status(200).json({
             success: true,
@@ -48,7 +48,7 @@ class TheaterController {
     deleteTheater = asyncHandler(async (req, res) => {
         const { id } = req.params;
 
-        await theaterQueryService.remove(id);
+        await theaterIngestionService.remove(id);
 
         return res.status(200).json({
             success: true,

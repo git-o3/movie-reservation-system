@@ -1,11 +1,13 @@
 import { Router } from "express";
 import TheaterController from "./internal/controllers/theaterController.js";
-import { restrict } from "../users/index.js";
+import { protect, restrict } from "../users/index.js";
 
 const router = Router();
 
 router.get("/", TheaterController.getTheaters);
 router.get("/:id", TheaterController.getTheater);
+
+router.use(protect)
 
 router.post("/", restrict("admin"), TheaterController.createTheater);
 router.put("/:id", restrict("admin"), TheaterController.updateTheater);
