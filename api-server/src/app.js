@@ -2,10 +2,10 @@ import express from "express";
 import config from "./config/index.js";
 import { AppError, errorHandler } from "./shared/error.js";
 import { authRouter } from "./modules/users/index.js";
-import movieRouter from "./modules/movies/index.js";
-import theaterRouter from "./modules/theaters/index.js";
-import showtimeRouter from "./modules/showtime/index.js";
-import reservationRouter from "./modules/reservations/index.js"
+import { movieRouter } from "./modules/movies/index.js";
+import { theaterRouter }from "./modules/theaters/index.js";
+import { showtimeRouter } from "./modules/showtime/index.js";
+import { reservationRouter }from "./modules/reservations/index.js"
 
 const app = express();
 

@@ -1,7 +1,7 @@
 import app from "./app.js";
 import config from "./config/index.js";
-import { connectDB } from "./config/db.js";
-import { connectBroker } from "./config/broker.js";
+import { connectDB } from "./shared/db.js";
+import { connectBroker } from "./shared/broker.js";
 import { initReservationModule } from "./modules/reservations/index.js";
 
 
