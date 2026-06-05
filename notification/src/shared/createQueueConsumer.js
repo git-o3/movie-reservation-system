@@ -9,7 +9,7 @@ export async function createQueueConsumer(queueName, handler) {
             }
 
             try {
-                await handler(message, ask);
+                await handler(message, ack);
             } catch (error) {
                 console.error(`handler failed on queue ${queueName}:`, error.message);
             }

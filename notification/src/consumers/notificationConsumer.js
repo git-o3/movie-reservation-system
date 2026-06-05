@@ -3,7 +3,7 @@ import { sendEmail } from "../services/emailService.js";
 import { reservationConfirmedTemplate } from "../templates/reservationConfirmed.js";
 import { reservationCancelledTemplate } from "../templates/reservationCancelled.js";
 
-const LISTEN_QUEUE = "notification.send";
+const LISTEN_QUEUE = "notification_send";
 
 const templates = {
     reservation_confirmed: reservationConfirmedTemplate,
@@ -13,9 +13,10 @@ const templates = {
 export async function initNotificationConsumer() {
     await createQueueConsumer(LISTEN_QUEUE, async (message, ack) => {
         const { userId, type, payload, email } = message;
+        console.log("Received message:", message);
 
         if (!userId || !type || !email) {
-            console.warn("Malformed message on notification.send. Skipping...");
+            console.warn("Malformed message on notification_send. Skipping...");
             return ack();
         }
 
