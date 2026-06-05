@@ -8,7 +8,7 @@ const signToken = (id, role) => {
     return jwt.sign({ id, role }, config.JWT_SECRET, { expiresIn: "7d"});
 }
 
-export const register = async (email, password) => {
+export const register = async (name, email, password) => {
     const session = await mongoose.startSession()
     session.startTransaction()
 
@@ -16,7 +16,7 @@ export const register = async (email, password) => {
         const existingEmail = await User.findOne({ email })
         if (existingEmail) throw new AppError("Email is already registered", 400)
 
-        const [newUser] = await User.create([{ email, password}], { session })
+        const [newUser] = await User.create([{ name, email, password}], { session })
         const token = signToken(newUser._id, newUser.role)
 
         await session.commitTransaction()

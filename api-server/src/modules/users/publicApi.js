@@ -4,6 +4,7 @@ import User from "./internal/models/userModel.js";
 import { AppError } from "../../shared/error.js";
 
 const protect = async (req, res, next) => {
+    console.log("protect running", req.headers.authorization);
     try {
         let token;
         if (req.headers.authorization && req.headers.authorization.startsWith("Bearer")) {
@@ -38,7 +39,12 @@ const restrict = (...roles) => (req, res, next) => {
     next();
 };
 
+const findUserById = async (id) => {
+    return await User.findById(id).lean();
+};
+
 export { 
     protect,
-    restrict
+    restrict,
+    findUserById
 };

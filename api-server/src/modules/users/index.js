@@ -1,6 +1,6 @@
 import authRouter from "./routes.js";
-export {  protect, restrict } from "./publicApi.js";
+export {  protect, restrict , findUserById } from "./publicApi.js";
 
-export default {
+export {
     authRouter
 };
