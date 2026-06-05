@@ -26,6 +26,7 @@ class SeatQueryService {
         return seats;
     }
 
+
 }
 
 export default new SeatQueryService();

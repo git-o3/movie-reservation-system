@@ -17,7 +17,7 @@ class SeatIngestionService {
 
             for (let seatNum = 1; seatNum <= seatsPerRow; seatNum++) {
                 seats.push({
-                    theater: theaterId,
+                    theaterId: theaterId,
                     seatLocation: `${rowLabel} ${seatNum}`,
                     isVip,
                 })
@@ -83,6 +83,11 @@ class SeatIngestionService {
         }
 
         await Seat.findByIdAndUpdate(seatId, { $set: { status: "available" } });
+    }
+
+    async deleteByTheaterId(theaterId) {
+
+        await Seat.deleteMany({ theaterId })
     }
     
 }

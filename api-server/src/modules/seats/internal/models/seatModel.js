@@ -18,6 +18,7 @@ const seatSchema = new Schema({
     status: {
         type: String,
         enum: ["available", "reserved", "maintenance"],
+        default: "available"
     }
 }, { timestamps: true })
 

@@ -7,4 +7,5 @@ export const SeatModuleApi = {
     generateSeats: (data) => seatIngestionService.generateSeats(data),
     reserveSeat: (seatId) => seatIngestionService.reserveSeat(seatId),
     releaseSeat: (seatId) => seatIngestionService.releaseSeat(seatId),
+    deleteByTheaterId: (theaterId) => seatIngestionService.deleteByTheaterId(theaterId),
 }
