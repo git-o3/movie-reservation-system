@@ -3,10 +3,9 @@ import { initReservationCreatedConsumer } from "./internal/consumers/reservation
 import { initReservationConfirmedConsumer } from "./internal/consumers/reservationConfirmedConsumer.js";
 import { initReservationNotifiedConsumer } from "./internal/consumers/reservationNotifiedConsumer.js";
 import { initReservationCancelledConsumer } from "./internal/consumers/reservationCancelledConsumer.js";
-import { connectBroker } from "../../shared/broker.js";
 export { ReservationModuleApi } from "./publicApi.js";
 
-export default {
+export {
     reservationRouter
 }
 

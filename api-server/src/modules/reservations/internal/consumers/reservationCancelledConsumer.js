@@ -23,6 +23,7 @@ export async function initReservationCancelledConsumer() {
 
         await publishToQueue(NOTIFICATION_QUEUE, {
             userId: state.userId,
+            email: state.email,
             type: "reservation_cancelled",
             payload: { reservationId: state.reservationId }
         })

@@ -1,4 +1,5 @@
 import Reservation from "../models/reservationModel.js";
+import { findUserById } from "../../../users/publicApi.js";
 import { AppError } from "../../../../shared/error.js";
 import { ShowtimeModuleApi } from "../../../showtime/publicApi.js";
 import { SeatModuleApi } from "../../../seats/publicApi.js";
@@ -6,7 +7,7 @@ import { randomUUID } from "crypto";
 import { setPipelineState, updatePipelineState } from "../../../../shared/redis.js";
 import { publishToQueue } from "../../../../shared/broker.js";
 
-const CREATED_QUEUE = "reservation.created";
+const CREATED_QUEUE = "reservation_created";
 
 class ReservationIngestionService {
 
@@ -44,10 +45,13 @@ class ReservationIngestionService {
             throw err;
         }
 
+        const user = await findUserById(reservation.userId)
+
         const jobId = randomUUID();
         await setPipelineState(jobId, {
             jobId,
             userId: userId.toString(),
+            email: user.email,
             reservationId: reservation._id.toString(),
             status: "pending"
         });
@@ -63,7 +67,7 @@ class ReservationIngestionService {
         if (!reservation) {
             throw new AppError("Reservation not found.", 404);
         }
-        if (reservation.userId.toString() !== userId.toString() && req.user.role !== "admin" ){
+        if (reservation.userId.toString() !== userId.toString() && role !== "admin" ){
             throw new AppError("You do not have permission to cancel this reservation")
         }
         if (reservation.status !== "confirmed") {
@@ -75,15 +79,18 @@ class ReservationIngestionService {
         reservation.status = "cancelled";
         await reservation.save();
 
+        const user = await findUserById(reservation.userId)
+
         const jobId = randomUUID();
         await setPipelineState(jobId, {
             jobId,
             userId: reservation.userId.toString(),
+            email: user.email,
             reservationId: reservation._id.toString(),
             status: "cancelled"
         });
 
-        await publishToQueue("reservation.cancelled", { jobId });
+        await publishToQueue("reservation_cancelled", { jobId });
 
         return reservation;
     }

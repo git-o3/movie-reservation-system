@@ -16,13 +16,13 @@ export async function initReservationNotifiedConsumer() {
 
         if (!state) {
             console.warn(`No pipeline state found for jobId: ${jobId}. Skipping...`);
-            return ask();
+            return ack();
         }
 
         await updatePipelineState(jobId, { status: "completed" });
 
         console.log(`Reservation pipeline completed for jobid: ${jobId}`);
 
-        ask();
+        ack();
     });
 }

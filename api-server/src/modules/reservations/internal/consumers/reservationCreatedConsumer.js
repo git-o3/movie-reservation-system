@@ -1,6 +1,6 @@
 import { createQueueConsumer } from "../../../../shared/createQueueConsumer.js";
 import { publishToQueue } from "../../../../shared/broker.js";
-import { getPipelineState, updatePipleineState } from "../../../../shared/redis.js"
+import { getPipelineState, updatePipelineState } from "../../../../shared/redis.js"
 import { ReservationModuleApi } from "../../publicApi.js";
 
 const LISTEN_QUEUE = "reservation_created";
@@ -27,9 +27,10 @@ export async function initReservationCreatedConsumer() {
         await ReservationModuleApi.updateStatus(state.reservationId, "confirmed");
         
         // update Redis state
-        await updatePipleineState(jobid, { status: "confirmed" });
+        await updatePipelineState(jobId, { status: "confirmed" });
 
         // publish to next queue
         await publishToQueue(NEXT_QUEUE, { jobId })
+        ack();
     })
 }

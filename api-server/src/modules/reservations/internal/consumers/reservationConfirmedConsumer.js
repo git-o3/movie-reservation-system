@@ -25,6 +25,7 @@ export async function initReservationConfirmedConsumer() {
         // notify via queue
         await publishToQueue(NOTIFICATION_QUEUE, {
             userId: state.userId,
+            email: state.email,
             type: "reservation_confirmed",
             payload: { reservationId: state.reservationId }
         });
