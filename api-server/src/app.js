@@ -6,10 +6,15 @@ import { movieRouter } from "./modules/movies/index.js";
 import { theaterRouter }from "./modules/theaters/index.js";
 import { showtimeRouter } from "./modules/showtime/index.js";
 import { reservationRouter }from "./modules/reservations/index.js"
+import swaggerUi from "swagger-ui-express"
+import yaml from "yamljs";
 
 const app = express();
+const swaggerDoc = yaml.load("./src/docs/swagger.yaml")
 
 app.use(express.json());
+
+app.use("/api/v1/docs", swaggerUi.serve, swaggerUi.setup(swaggerDoc));
 
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/movies", movieRouter);
