@@ -31,6 +31,6 @@ export async function initReservationCreatedConsumer() {
 
         // publish to next queue
         await publishToQueue(NEXT_QUEUE, { jobId })
-        ack();
+        return ack();
     })
 }
